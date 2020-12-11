@@ -4,6 +4,6 @@
 int main()
 {
     test_symbol_balancing();
-    test_postfix();
+    // test_postfix();
     return 0;
 }
