@@ -25,12 +25,12 @@ void is_well_formed(char* expression, BalanceResult* result){
     StackResult stack_result;
     for (t = expression; *t != '\0'; t++)
     {
-        char symbol = t[0];
-        if(_is_open_symbol(symbol)){
-            stack = stack_push(stack, symbol, &stack_result);
-        }else if(_is_close_symbol(symbol)){
+        char token = t[0];
+        if(_is_open_symbol(token)){
+            stack = stack_push(stack, token, &stack_result);
+        }else if(_is_close_symbol(token)){
             stack = stack_peek(stack, &stack_result);
-            if(_is_matching_symbol(stack_result.data, symbol)){
+            if(_is_matching_symbol(stack_result.data, token)){
                 stack = stack_pop(stack, &stack_result);
             }else{
                 result->status = NOT_BALANCED;
