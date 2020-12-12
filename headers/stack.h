@@ -3,7 +3,7 @@
 #include <stdint.h>
 
 #ifndef STACK_CONTENT_TYPE
-#define STACK_CONTENT_TYPE char
+#define STACK_CONTENT_TYPE int32_t
 #endif
 
 typedef struct _node_ Node;

@@ -4,7 +4,7 @@
 #include <stdint.h>
 
 typedef struct{
-    char result;
+    int32_t result;
 }PostFixResult;
 
 void eval_postfix(char* expression, PostFixResult* result);

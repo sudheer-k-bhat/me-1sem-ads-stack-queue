@@ -1,5 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <assert.h>
+#include <ctype.h>
 
 #include "postfix.h"
 #include "stack.h"
@@ -20,24 +22,43 @@ void eval_postfix(char* expression, PostFixResult* result){
     Stack* stack = &stk;
     StackResult stack_result;
     for(t = expression; *t != '\0'; t++){
-        char symbol = t[0];
+        if(t[0] == ' ') continue;
+        assert(t[0] == '+' || isdigit(t[0]));
         // TODO assuming only numbers & arithmetic operators (+ for now)
-        if(symbol == '+'){
-            int32_t operand1;
-            extract_operand(stack, &operand1);
+        if(t[0] == '+'){
+            stack = stack_pop(stack, &stack_result);
+            int32_t operand1 = stack_result.data;
 
             t++;
-            char op2 = t[0];
-            char res[2] = {op2, '\0'};
-            int32_t operand2 = atoi(res);
+            int32_t num = 0;
+            while(isdigit(t[0]) || t[0] == ' '){
+                char token = t[0];
+                t++;
+                if(token == ' '){
+                    continue;
+                }else{
+                    num = num * 10 + (int32_t) (token - '0');
+                }
+            }
+            int32_t operand2 = num;
+            t--;
 
             int32_t op_result = operand1 + operand2;
-            printf("%d = %d + %d", op_result, operand1, operand2);
-            char op_result_char[2];
-            sprintf(op_result_char, "%d", op_result);
-            stack_push(stack, op_result_char[0], &stack_result);
+            printf("%d = %d + %d\n", op_result, operand1, operand2);
+            stack_push(stack, op_result, &stack_result);
         }else{
-            stack_push(stack, symbol, &stack_result);
+            int32_t num = 0;
+            while(isdigit(t[0]) || t[0] == ' '){
+                char token = t[0];
+                t++;
+                if(token == ' '){
+                    continue;
+                }else{
+                    num = num * 10 + (int32_t) (token - '0');
+                }
+            }
+            t--;
+            stack_push(stack, num, &stack_result);
         }
     }
     stack_pop(stack, &stack_result);
