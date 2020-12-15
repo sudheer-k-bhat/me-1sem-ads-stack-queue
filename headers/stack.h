@@ -22,7 +22,8 @@ struct _stack_
 
 typedef enum {
     STACK_OK,
-    STACK_EMPTY
+    STACK_EMPTY,
+    STACK_FULL
 }STACK_STATUS;
 
 typedef struct {
